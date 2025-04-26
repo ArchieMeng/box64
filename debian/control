@@ -6,9 +6,9 @@ Build-Depends: cmake, debhelper (>=11~), python3
 Standards-Version: 4.1.4
 Homepage: https://github.com/ptitSeb/box64
 
-Package: box64
+Package: box64-sd865
 Architecture: any
 Multi-Arch: foreign
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: Linux Userspace x86_64 Emulator with a twist, targeted at ARM Linux devices 
+Description: Linux Userspace x86_64 Emulator with a twist, targeted at ARM SD865(SM8250) Linux devices 
  Box86 lets you run x86_64 Linux programs (such as games) on non-x86 Linux systems, like ARM (host system needs to be 64bit little-endian).
