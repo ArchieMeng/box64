@@ -23,3 +23,7 @@ override_dh_shlibdeps:
 	--exclude=libcrypto.so.1.0.0 \
 	--exclude=libssl.so.1.0.0 \
 	--exclude=box64-bash
+
+# Bypass strip
+override_dh_strip:
+	echo
