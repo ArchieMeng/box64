@@ -9,6 +9,8 @@ Homepage: https://github.com/ptitSeb/box64
 Package: box64-sd865
 Architecture: any
 Multi-Arch: foreign
+Provides: box64
+Conflicts: qemu-user-static, box64, box64-generic-arm-page16k, box64-android, box64-rpi4arm64, box64-rpi3arm64, box64-tegrax1, box64-rk3399
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: Linux Userspace x86_64 Emulator with a twist, targeted at ARM SD865(SM8250) Linux devices 
  Box86 lets you run x86_64 Linux programs (such as games) on non-x86 Linux systems, like ARM (host system needs to be 64bit little-endian).
