@@ -25,15 +25,21 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Fixup upstream tag for releng-build-package
+      run: |
+        orig_tag="$(head -n1 debian/changelog | cut -d '(' -f2 | cut -d ')' -f1)"
+        git remote add upstream https://github.com/ptitSeb/box64
+        git fetch -a -t upstream
+        git tag upstream/"$orig_tag" v"$orig_tag"
     - name: Build packages in the container
       run: |
         docker run \
         -v ${{ github.workspace }}:/build/sources -v /tmp/results:/build \
         quay.io/droidian/build-essential:next-arm64 /bin/bash -c '''
         cd /build/sources
-        apt update
-        apt build-dep -y .
-        dpkg-buildpackage -us -uc -b
+        RELENG_HOST_ARCH="arm64" releng-build-package
         '''
     - uses: actions/upload-artifact@v4
       with:
