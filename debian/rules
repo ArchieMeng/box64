@@ -7,27 +7,11 @@ DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH 2>/dev/null || echo "
 
 override_dh_auto_configure:
 	@echo "Configuring for architecture: $(DEB_HOST_ARCH)"
-ifeq ($(DEB_HOST_ARCH),riscv64)
 	dh_auto_configure -- \
-		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-		-DRV64=1 \
-		-DRV64_DYNAREC=1 \
-		-DNOGIT=1
-else ifeq ($(DEB_HOST_ARCH),arm64)
-	dh_auto_configure -- \
-		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-		-DARM_DYNAREC=1 \
-		-DNOGIT=1
-else ifeq ($(DEB_HOST_ARCH),aarch64)
-	dh_auto_configure -- \
-		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-		-DARM_DYNAREC=1 \
-		-DNOGIT=1
-else
-	dh_auto_configure -- \
-		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
-		-DNOGIT=1
-endif
+	      -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+	      -DSD865=1 \
+	      -DARM_DYNAREC=1 \
+	      -DNOGIT=1
 
 override_dh_shlibdeps:
 	dh_shlibdeps --exclude=libgcc_s.so.1 \
