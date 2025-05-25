@@ -9,7 +9,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -34,6 +34,7 @@ jobs:
         git remote add upstream https://github.com/ptitSeb/box64
         git fetch -a -t upstream
         git tag upstream/"$orig_tag" v"$orig_tag"
+        echo "upstream_tag=upstream/$orig_tag" >> $GITHUB_ENV
     - name: Build packages in the container
       run: |
         docker run \
@@ -42,9 +43,20 @@ jobs:
         cd /build/sources
         RELENG_HOST_ARCH="arm64" releng-build-package
         '''
+    - name: Get version
+      run: |
+        git reset --hard origin/HEAD
+        git tag -d ${{ env.upstream_tag }}
+        echo "version=$(git describe --tags)" >> $GITHUB_ENV
     - uses: actions/upload-artifact@v4
       with:
         path: /tmp/results
+    - name: Create latest release
+      uses: softprops/action-gh-release@v2.2.2
+      with:
+        files: /tmp/results/*
+        tag_name: ${{ env.version }}
+        draft: false
     - name: Generate files for Github Page of this repo
       run: |
         cd /tmp/results
