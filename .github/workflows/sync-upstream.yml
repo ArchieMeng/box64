@@ -4,6 +4,9 @@ on:
   - cron: "0 0 * * *"  # run daily
   workflow_dispatch:   # run manually
 
+permissions:
+  workflow: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
